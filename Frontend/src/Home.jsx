@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import './App.css'
 
 const navItems = [
@@ -43,6 +44,14 @@ const trustHighlights = [
 	'Safeguarding and Wellbeing Certified',
 ]
 
+const aboutPillars = ['Outcome-Driven Curriculum', 'Student Wellbeing First', 'Global Skills Development']
+
+const aboutFacts = [
+	{ label: 'Student Support', value: '1:1' },
+	{ label: 'Curriculum Focus', value: 'Holistic' },
+	{ label: 'Learning Culture', value: 'Global' },
+]
+
 const journeySteps = [
 	{
 		title: 'Book a Consultation',
@@ -82,6 +91,13 @@ const galleryMoments = [
 ]
 
 const Home =() => {
+	const currentYear = new Date().getFullYear()
+	const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
+
+	const handleNavItemClick = () => {
+		setIsMobileMenuOpen(false)
+	}
+
 	return (
 		<div className="life-site">
 			<header className="hero" id="top">
@@ -91,10 +107,25 @@ const Home =() => {
 						<span className="brand-name">Liberal Institute for Future Education</span>
 					</a>
 
-					<ul className="nav-links">
+					<button
+						type="button"
+						className="menu-toggle"
+						onClick={() => setIsMobileMenuOpen((prev) => !prev)}
+						aria-label="Toggle navigation menu"
+						aria-expanded={isMobileMenuOpen}
+						aria-controls="mobile-nav-links"
+					>
+						<span />
+						<span />
+						<span />
+					</button>
+
+					<ul id="mobile-nav-links" className={`nav-links ${isMobileMenuOpen ? 'nav-open' : ''}`}>
 						{navItems.map((item) => (
 							<li key={item.label}>
-								<a href={item.href}>{item.label}</a>
+								<a href={item.href} onClick={handleNavItemClick}>
+									{item.label}
+								</a>
 							</li>
 						))}
 					</ul>
@@ -143,9 +174,30 @@ const Home =() => {
 						<h2>Education Designed for Academic Excellence and Lifelong Leadership.</h2>
 					</div>
 					<div className="about-layout">
-						<p>
-							LIFE is an institution focused on measurable learning outcomes, student wellbeing, and globally relevant competencies. We deliver structured pathways that help learners progress with confidence.
-						</p>
+						<div className="about-copy">
+							<p>
+								LIFE is an institution focused on measurable learning outcomes, student wellbeing, and globally relevant competencies. We deliver structured pathways that help learners progress with confidence.
+							</p>
+							<div className="about-quote">
+								<span className="about-quote-mark">“</span>
+								<p>
+									Our aim is to create a learning experience that is disciplined, caring, and highly adaptable.
+								</p>
+							</div>
+							<ul className="about-pillar-list" aria-label="Who we are highlights">
+								{aboutPillars.map((pillar) => (
+									<li key={pillar}>{pillar}</li>
+								))}
+							</ul>
+							<div className="about-facts" aria-label="Who we are key facts">
+								{aboutFacts.map((fact) => (
+									<div key={fact.label} className="about-fact-card">
+										<strong>{fact.value}</strong>
+										<span>{fact.label}</span>
+									</div>
+								))}
+							</div>
+						</div>
 						<div className="about-image-wrap">
 							<img
 								src="https://images.unsplash.com/photo-1509062522246-3755977927d7?auto=format&fit=crop&w=1200&q=80"
@@ -259,6 +311,10 @@ const Home =() => {
 						<a href="mailto:info@lifeeducation.org">info@lifeeducation.org</a>
 						<a href="tel:+10000000000">+1 (000) 000-0000</a>
 					</div>
+
+					<p className="footer-copyright">
+						&copy; {currentYear} P&M Technologies. All rights reserved.
+					</p>
 				</footer>
 			</main>
 		</div>
